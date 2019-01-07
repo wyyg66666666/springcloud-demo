@@ -19,11 +19,13 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- 此处是为了后面添加spring-cloud相关依赖的时候不需要备注版本号，会自动下载与之匹配的版本 -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
 				<version>Dalston.SR1</version>
 				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -65,11 +67,41 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	
+	<build>
+		<!-- 此处的大概意思就是配置maven-resources-plugin插件扫描解析在文件夹
+		src/main/resources中的文件以$符号开头或者结尾的配置文件信息 -->
+		<finalName>microservicecloud</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<delimiters>
+						<delimit>$</delimit>
+					</delimiters>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<modules>
 		<module>microsvccloud-api</module>
 		<module>microservicecloud-provider-dept-8001</module>
 		<module>microservicecloud-consumer-dept-80</module>
 		<module>microservicecloud-eureka-7001</module>
+		<module>microservicecloud-eureka-7002</module>
+		<module>microservicecloud-provider-dept-8002</module>
+		<module>microservicecloud-provider-dept-hystrix-8001</module>
+		<module>microservicecloud-consumer-hystrix-dashboard</module>
+		<module>microservicecloud-zuul-gateway-9527</module>
+		<module>microservicecloud-config-3344</module>
+		<module>microservicecloud-config-client-3355</module>
 	</modules>
 </project>
